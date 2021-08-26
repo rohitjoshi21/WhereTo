@@ -178,7 +178,7 @@ void showPlaces(){
     //Finding total number of places in the array
     int num = sizeof(places) / sizeof(places[0]);
 
-    printf("\n\n\Places\n");
+    printf("\n\nPlaces\n");
     for(int i=0;i<num;i++){
         printf("\n%d. %s",i+1,places[i]);
     }
