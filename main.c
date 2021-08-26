@@ -86,7 +86,7 @@ int reserveTicket(){
 
     char location[20],destination[20];
 
-    printf("Enter your name\n");
+    printf("\nEnter your name\n");
     printf("--> ");
     clear();
     gets(name);
@@ -107,7 +107,7 @@ int reserveTicket(){
     //Get the location and destination
     showPlaces();
 
-    printf("\nChoose your departing location:\n");
+    printf("\n\nChoose your departing location:\n");
     scanf("%d",&locIndex);
     strcpy(location,places[locIndex-1]);
     printf("\nChoose your destination:\n");
@@ -122,22 +122,22 @@ int reserveTicket(){
         goto top;
     }
 
-    printf("Enter the route ID\n");
+    printf("\nEnter the route ID\n");
     printf("--> ");
     scanf("%d",&routeId);
 
-    printf("Enter number to seats to be booked\n");
+    printf("Enter number of seats to be booked\n");
     printf("--> ");
     scanf("%d",&seatCount);
 
     int ticketNo = addNewTicket(name,routeId,seatCount);
 
-    printf("Thank you for using our sevice! Your ticket is ready");
+    printf("\nThank you for using our sevice! Your ticket is ready");
     printf("\nPress any key to view your ticket....");
     getch();
     showTicket(ticketNo);
 
-    printf("\nPress any key to continue.....\n");
+    printf("\nPress any key to continue.....\n\n");
     getch();
 
 //    return ticketNumber;
@@ -154,17 +154,22 @@ void cancelTicket(){
     printf("Do you want to cancel it?(Y/N)");
     printf("--> ");
     clear();
+
+    int found = 0;
     char r = getchar();
     if(r=='y' || r=='Y'){
         for(int i=0;i<totalTickets;i++){
             if(allTickets[i].ticketNo==ticketNo){
+                found = 1;
                 allTickets[i].ticketNo = 0;
 
             }
         }
+        if(found==0)
+            printf("\nGiven ticket number is not found in the database. Check it again!\n");
+        else
+            printf("\nTickets Cancelled Successfully\n\n");
     }
-
-    printf("\nTickets Cancelled Successfully\n\n");
 
     printf("\nPress any key to continue.....\n");
     getch();
@@ -273,7 +278,8 @@ int addNewTicket(char name[], int routeId, int seatCount){
     allTickets[pos].seatCount = seatCount;
 
     //Writing ticket data to file
-    fseek(fp,0,SEEK_END);
+    fflush(stdin);
+//    fseek(fp,0,SEEK_END);
     fprintf(fp, "\n%d, %s, %d, %d",ticketNumber,name,routeId,seatCount);
     fclose(fp);
 
