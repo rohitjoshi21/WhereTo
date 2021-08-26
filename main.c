@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <conio.h>
 #include <string.h>
+#include <stdlib.h>
 
 struct Route{
     int id;
@@ -12,7 +13,9 @@ struct Route{
     int price;
 } allRoutes[30];
 int totalRoutes;
+
 char places[][20] = {"Kathmandu","Pokhara","Biratnagar","Birgunj","Butwal"};
+int totalPlaces = sizeof(places)/sizeof(places[0]);
 
 struct Ticket{
     int ticketNo;
@@ -26,12 +29,15 @@ int totalTickets;
 int reserveTicket();
 void cancelTicket();
 void showOtherService();
+void suggestDestination();
+void weatherData();
 void showPlaces();
 void showRoutes(int,char[],char[]);
 int loadDatas();
 void showTicket(int);
 int addNewTicket(char[], int, int);
 void clear();
+
 //Main Program
 int main(){
     int menuChoice;
@@ -176,7 +182,50 @@ void cancelTicket(){
 }
 
 void showOtherService(){
-    printf("\nOther Services\n\n");
+    int menuChoice;
+
+    printf("\nOther Services\n");
+    printf("\n\
+1. Destination Suggestion\n\
+2. Weather Prediction\n");
+
+    printf("\nChoose an option (1/2)\n");
+    printf("--> ");
+    scanf("%d",&menuChoice);
+
+    switch(menuChoice){
+    case 1:
+        suggestDestination();
+    case 2:
+        weatherData();
+    }
+
+    printf("\nPress any key to go back to main menu.....\n\n");
+    getch();
+}
+
+void weatherData(){
+    int locIndex;
+    float rain,maxT,minT;
+    char place[20];
+    char loc[20];
+
+    showPlaces();
+    printf("\n\nChoose a place to know its weather data:\n");
+    scanf("%d",&locIndex);
+    strcpy(loc,places[locIndex-1]);
+
+    FILE *fp;
+    fp = fopen("weatherdata.txt","r");
+    fscanf(fp, "%*[^\n]");
+    while(fscanf(fp,"\n%[^,], %f, %f, %f",place,&rain,&maxT,&minT)!=EOF){
+        if(strcmp(place,loc)==0){
+            printf("\n\nWeather Data of %s is:\n",place);
+            printf("Rainfall(in mm)    : %f\n",rain);
+            printf("Maximum Temperature: %f\n",maxT);
+            printf("Minimum Temperature: %f\n",minT);
+        }
+    }
 }
 
 void showPlaces(){
@@ -186,6 +235,43 @@ void showPlaces(){
     printf("\n\nPlaces\n");
     for(int i=0;i<num;i++){
         printf("\n%d. %s",i+1,places[i]);
+    }
+}
+
+void suggestDestination(){
+    char myLoc[20],dest[20],ans;
+    int a;
+    time_t  t;
+    srand((unsigned) time(&t));
+
+
+    printf("Enter your location!");
+    printf("--> ");
+    clear();
+    gets(myLoc);
+
+    again:
+    a = rand()%totalPlaces;
+    strcpy(dest,places[a]);
+    if(strcmp(dest,myLoc)==0)
+        goto again;
+    printf("\nThe Best Location for you to visit is %s for today\n", dest);
+
+    printf("\nDo you want to see the available routes? (Y/N)\n");
+    printf("--> ");
+    clear();
+    ans = getchar();
+
+    if(ans=='y' || ans=='Y'){
+        printf("\nAirways:\n");
+        showRoutes(1,myLoc,dest);
+
+        printf("\nRoadways:\n");
+        showRoutes(2,myLoc,dest);
+
+        printf("\nRailways:\n");
+        showRoutes(3,myLoc,dest);
+
     }
 }
 
