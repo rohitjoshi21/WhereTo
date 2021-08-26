@@ -374,5 +374,6 @@ int addNewTicket(char name[], int routeId, int seatCount){
 }
 
 void clear(){
+    //Clear previous inputs from program
     while(getchar()!='\n');
 }
