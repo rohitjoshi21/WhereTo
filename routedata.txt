@@ -1,4 +1,0 @@
-101, 2, Kathmandu Yatayat, Kathmandu, Butwal, 05:30 AM, 1200
-102, 2, Kathmandu Yatayat, Kathmandu, Pokhara, 05:00 AM, 1000
-103, 1, Khaptad Airlines, Kathmandu, Khaptad, 03:30 PM, 5000
-102, 3, Karnali Express, Karnali, Kathmandu, 04:00 PM, 1800
