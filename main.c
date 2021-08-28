@@ -196,8 +196,10 @@ void showOtherService(){
     switch(menuChoice){
     case 1:
         suggestDestination();
+        break;
     case 2:
         weatherData();
+        break;
     }
 
     printf("\nPress any key to go back to main menu.....\n\n");
@@ -224,6 +226,7 @@ void weatherData(){
             printf("Rainfall(in mm)    : %f\n",rain);
             printf("Maximum Temperature: %f\n",maxT);
             printf("Minimum Temperature: %f\n",minT);
+            break;
         }
     }
 }
